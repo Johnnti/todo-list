@@ -59,5 +59,29 @@ async def get_list(list_id: str) -> ToDoList:
 async def delete_list(list_id: str) -> bool:
     return await app.todo_dal.delete_todo_list(list_id)
 
+class NewItem(BaseModel):
+    label: str
+class NewItemResponse(BaseModel):
+    id: str
+    label: str
+
+
+@app.post("api/lists/{list_id}/items", status_code=status.HTTP_201_CREATED)
+async def create_item(list_id: str, new_item: NewItem) -> ToDoList:
+    return await app.todo_dal.create_item(list_id, new_item.label)
+
+app.delete("api/lists/{list_id}/items/{item_id}")
+async def delete_item(list_id: str, item_id: str) -> ToDoList:
+    return await app.todo_dal.delete_item(list_id, item_id)
+
+class ToDoItemUpdate(BaseModel):
+    item_id: str
+    checked_state: bool
+
+@app.patch("/api/lists/{list_id}/checked_state")
+async def set_checked_state(list_id: str, update: ToDoItemUpdate) -> ToDoList:
+    return await app.todo_dal.set_checked_state(list_id, update.item_id, update.checked_state)
+
+
 
 
