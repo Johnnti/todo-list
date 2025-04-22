@@ -111,7 +111,7 @@ class ToDoDAL:
             {"_id": ObjectId(doc_id), "items.id":item_id},
             {"$set": {"items.$.checked": checked_state}},
             session=session
-            return_document=ReturnDocument.AFTER,
+            return_document=ReturnDocument.AFTER
         )
         if result:
             return ToDoList.from_doc(result)
