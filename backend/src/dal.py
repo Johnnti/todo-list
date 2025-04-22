@@ -61,7 +61,7 @@ class ToDoDAL:
             yield ListSummary.from_doc(doc)
             
     async def create_todo_list(self, name: str, session=None) -> str:
-        response = await self._todo_collectoin.insert_one(
+        response = await self._todo_collection.insert_one(
             {"name": name, "items": []},
             session = session
         )
@@ -126,3 +126,5 @@ class ToDoDAL:
             {"id": ObjectId(doc_id)},
             {"$pull": {"items": {"id": item_id}}}
         )
+        if result:
+            return ToDoList.from_doc(result)
