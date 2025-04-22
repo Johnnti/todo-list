@@ -94,7 +94,7 @@ class ToDoDAL:
                     }
                 }
             },
-            session=session
+            session=session,
             return_document=ReturnDocument.AFTER
         )
         if result:
@@ -110,7 +110,7 @@ class ToDoDAL:
         result = await self._todo_collection.find_one_and_update(
             {"_id": ObjectId(doc_id), "items.id":item_id},
             {"$set": {"items.$.checked": checked_state}},
-            session=session
+            session=session,
             return_document=ReturnDocument.AFTER
         )
         if result:
